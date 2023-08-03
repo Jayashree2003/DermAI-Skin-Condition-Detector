@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predict</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <!-- Custom styles -->
+    <style>
+        body {
+            position: relative;
+            padding: 20px;
+            background-image: url('static/images/bg1.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        /* Pseudo-element for the transparent overlay */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(128, 128, 128, 0.2);
+            z-index: -1;
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+        form {
+            background-color: #f2f2f2; /* Light grey form background */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increased box shadow */
+            max-width: 400px; /* Added max-width */
+            margin: 0 auto;
+        }
+        input[type="file"] {
+            display: block;
+            margin: 0 auto;
+            margin-top: 20px;
+            font-size: 16px;
+            padding: 10px;
+            border: 2px solid #007bff; /* Blue border for the file input */
+            border-radius: 5px;
+        }
+        .btn-primary {
+            background-color: #78c7d2; /* Blue button background */
+            border-color:#78c7d2; /* Blue button border */
+            padding: 10px 20px;
+            font-size: 10px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            font-family: 'Amatic SC';
+            text-align: center;
+            text-transform: uppercase;
+            outline: none;
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            padding: 17px 60px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.20);
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: #78c7d2; /* Darker blue on hover */
+        }
+        .btn-primary span {
+            position: relative;
+            z-index: 1;
+        }
+        .btn-primary:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 490%;
+            width: 140%;
+            background: #808080;
+            -webkit-transition: all .5s ease-in-out;
+            transition: all .5s ease-in-out;
+            -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg);
+            transform: translateX(-98%) translateY(-25%) rotate(45deg);
+        }
+        .btn-primary:hover:after {
+            -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
+            transform: translateX(-9%) translateY(-25%) rotate(45deg);
+        }
+        .btn-success {
+            background-color: #78c7d2 ; /* blue button background */
+            border-color: #78c7d2 ; /* blue button border */
+            padding: 10px 20px;
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            font-family: 'Amatic SC';
+            text-align: center;
+            text-transform: uppercase;
+            outline: none;
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            padding: 17px 60px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.20);
+            cursor: pointer;
+        }
+        .btn-success:hover {
+            background-color: #78c7d2; /* green  on hover */
+        }
+        .btn-success span {
+            position: relative;
+            z-index: 1;
+        }
+        .btn-success:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 490%;
+            width: 140%;
+            background: #28a745;
+            -webkit-transition: all .5s ease-in-out;
+            transition: all .5s ease-in-out;
+            -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg);
+            transform: translateX(-98%) translateY(-25%) rotate(45deg);
+        }
+        .btn-success:hover:after {
+            -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
+            transform: translateX(-9%) translateY(-25%) rotate(45deg);
+        }
+        .card {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .card-img-top {
+            max-height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 16px;
+        }
+         /* Card Hover Effect */
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+<!--         /* Custom Card Styling */-->
+<!--        .custom-card {-->
+<!--            background-image: linear-gradient(to bottom right, #78c7d2, #289dbd);-->
+<!--            color: #ffffff;-->
+<!--        }-->
+
+<!--        .custom-card .card-title {-->
+<!--            color: #ffffff;-->
+<!--        }-->
+
+<!--        .custom-card .card-text {-->
+<!--            color: #f2f2f2;-->
+<!--            }-->
+    </style>
+</head>
+<body>
+    <h1 class="text-center">DermAI Skin Condition Detector</h1>
+
+    <form class="p-3 text-center" action="/" method="post" enctype="multipart/form-data">
+        <input class="form-control" type="file" name="imagefile" multiple accept="image/*">
+        <button class="btn btn-primary mt-3"><span>Predict Images</span></button>
+    </form>
+    <br>
+    <br>
+    <br>
+    {% if predictions %}
+    <h2 class="text-center">Predictions</h2>
+    <div class="row justify-content-center">
+        {% for prediction in predictions %}
+        <div class="col-md-4">
+            <div class="card custom-card">
+                <img src="data:image/png;base64, {{ prediction['Image Base64'] }}" class="card-img-top" alt="Resized Image">
+                <div class="card-body">
+                    <h3 class="card-title">Skin Condition: {{ prediction['Prediction'] }}</h3>
+                    <p class="card-text"><b>Image Name:</b> {{ prediction['Image Name'] }}</p>
+<!--                    <h5 class="card-text">Prediction: {{ prediction['Prediction'] }}</h5>-->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <p class="text-center">
+        <a href="{{ url_for('download_csv') }}" class="btn btn-success"><span>Download CSV</span></a>
+    </p>
+    {% endif %}
+</body>
+</html>
